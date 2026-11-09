@@ -13,7 +13,16 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class ThirdActivity extends AppCompatActivity {
-
+    private void goToActivity1() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+    }
+    private void goToActivity2() {
+        Intent intent = new Intent(this, HelloActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,19 +42,30 @@ public class ThirdActivity extends AppCompatActivity {
         ma1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(ThirdActivity.this, MainActivity.class);
-                intent.putExtra("stevec", i);
-                startActivity(intent);
-
+                goToActivity1();
             }
         });
         ma2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent2= new Intent(ThirdActivity.this, HelloActivity.class);
-                intent2.putExtra("stevec", i);
-                startActivity(intent2);
+                goToActivity2();
             }
         });
+        View layout = findViewById(R.id.main);
+        if (layout != null) {
+            layout.setOnTouchListener(new OnSwipeTouchListener(this) {
+                @Override
+                public void onSwipeLeft() {
+                    goToActivity1();
+                }
+
+                @Override
+                public void onSwipeRight() {
+                    goToActivity2();
+                }
+            });
+        }
+
+
     }
 }
